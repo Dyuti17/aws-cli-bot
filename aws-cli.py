@@ -62,14 +62,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def start(bot, update):
-    keyboard = [[InlineKeyboardButton("Create EC2 instance", callback_data="Create ec2 instance")],
-                 [InlineKeyboardButton("Start/Stop EC2 instance", callback_data="Start/Stop ec2 instance")],
-                [InlineKeyboardButton("Check number of EC2 instances", callback_data="Instance count")],
-                [InlineKeyboardButton("Terminate EC2 instance", callback_data="Terminate ec2")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text('Please choose:', reply_markup=reply_markup)
-
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -186,7 +178,6 @@ def main():
     updater = Updater("BOT_TOKEN")
     global dp
     dp = updater.dispatcher
-    updater.dispatcher.add_handler(CommandHandler('launch', start))
     updater.dispatcher.add_error_handler(error)
     dp.add_handler(MessageHandler(Filters.text, message))
     updater.start_polling()
